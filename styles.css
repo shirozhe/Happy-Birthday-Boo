@@ -1,0 +1,46 @@
+body {
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: #ffcccb;
+    font-family: 'Arial', sans-serif;
+  }
+  
+  .game-container {
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+    background-color: #fff5f5;
+  }
+  
+  #player {
+    width: 40px;
+    height: 40px;
+    background-color: #ff6699;
+    border-radius: 50%;
+    position: absolute;
+    top: 50px;
+    left: 50px;
+  }
+  
+  .heart {
+    width: 30px;
+    height: 30px;
+    background: url('https://cdn-icons-png.flaticon.com/512/833/833472.png') no-repeat center;
+    background-size: contain;
+    position: absolute;
+  }
+  
+  #message-box {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: rgba(0, 0, 0, 0.8);
+    color: white;
+    padding: 10px 20px;
+    border-radius: 10px;
+    display: none;
+    font-size: 18px;
+  }
+  
