@@ -1,46 +1,78 @@
-body {
-    margin: 0;
-    padding: 0;
-    overflow: hidden;
-    background-color: #ffcccb;
-    font-family: 'Arial', sans-serif;
+const player = document.getElementById('player');
+const hearts = document.querySelectorAll('.heart');
+const messageBox = document.getElementById('message-box');
+
+let playerPosition = { top: 50, left: 50 };
+let collectedHearts = 0;
+
+const messages = [
+  "You light up my world like the sun. ☀️",
+  "Your kindness is my greatest gift. 🎁",
+  "Every day with you is an adventure. 🌻",
+  "I love you endlessly. ❤️"
+];
+
+// Move the player with arrow keys or WASD
+document.addEventListener('keydown', (event) => {
+  switch (event.key) {
+    case 'ArrowUp':
+    case 'w':
+      playerPosition.top -= 10;
+      break;
+    case 'ArrowDown':
+    case 's':
+      playerPosition.top += 10;
+      break;
+    case 'ArrowLeft':
+    case 'a':
+      playerPosition.left -= 10;
+      break;
+    case 'ArrowRight':
+    case 'd':
+      playerPosition.left += 10;
+      break;
   }
-  
-  .game-container {
-    position: relative;
-    width: 100vw;
-    height: 100vh;
-    background-color: #fff5f5;
-  }
-  
-  #player {
-    width: 40px;
-    height: 40px;
-    background-color: #ff6699;
-    border-radius: 50%;
-    position: absolute;
-    top: 50px;
-    left: 50px;
-  }
-  
-  .heart {
-    width: 30px;
-    height: 30px;
-    background: url('https://cdn-icons-png.flaticon.com/512/833/833472.png') no-repeat center;
-    background-size: contain;
-    position: absolute;
-  }
-  
-  #message-box {
-    position: absolute;
-    bottom: 20px;
-    left: 50%;
-    transform: translateX(-50%);
-    background-color: rgba(0, 0, 0, 0.8);
-    color: white;
-    padding: 10px 20px;
-    border-radius: 10px;
-    display: none;
-    font-size: 18px;
-  }
-  
+
+  // Keep the player within the game boundaries
+  playerPosition.top = Math.max(0, Math.min(window.innerHeight - 50, playerPosition.top));
+  playerPosition.left = Math.max(0, Math.min(window.innerWidth - 50, playerPosition.left));
+
+  player.style.top = `${playerPosition.top}px`;
+  player.style.left = `${playerPosition.left}px`;
+
+  checkCollision();
+});
+
+function checkCollision() {
+  hearts.forEach((heart, index) => {
+    const heartRect = heart.getBoundingClientRect();
+    const playerRect = player.getBoundingClientRect();
+
+    if (
+      playerRect.left < heartRect.right &&
+      playerRect.right > heartRect.left &&
+      playerRect.top < heartRect.bottom &&
+      playerRect.bottom > heartRect.top
+    ) {
+      heart.style.display = 'none'; // Hide the heart
+      showMessage(messages[index]);
+      collectedHearts++;
+
+      if (collectedHearts === hearts.length) {
+        showMessage("You've collected all the hearts! I love you! ❤️");
+      }
+    }
+  });
+}
+
+function showMessage(message) {
+  messageBox.innerText = message;
+  messageBox.style.display = 'block';
+
+  setTimeout(() => {
+    messageBox.style.display = 'none';
+  }, 3000);
+}
+
+// Start with the first message
+showMessage("Let’s go on this adventure together! 🌻");
